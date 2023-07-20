@@ -1,4 +1,4 @@
-# Pyton(Flask+nginx+mysql) Project deploy using Docker
+# Python(Flask+nginx+mysql) Project deploy using Docker
 
 Prerequisite on the environment:
 1. Docker
