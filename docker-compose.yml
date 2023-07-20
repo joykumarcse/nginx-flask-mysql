@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    environment:
+      MYSQL_ROOT_PASSWORD: mysecretpassword
+    command: bash -c "pip install cryptography && python hello.py"   ##Install cryptography package for support caching_sha2_password method used by mysql
+    restart: always  
+    networks:
+      - my_network
+    volumes:
+      - my_data:/app/data 
+
+  db:
+    build: ./db
+    ports:
+      - "3306:3306"
+    restart: always  
+    networks:
+      - my_network  
+    volumes:
+      - db_data:/var/lib/mysql
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - backend  
+    restart: always  
+    networks:
+      - my_network
+
+networks:
+  my_network: 
+    driver: bridge
+
+volumes:
+  my_data:  
+  db_data:
+

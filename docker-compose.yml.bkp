@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      MYSQL_ROOT_PASSWORD: mysecretpassword
+    command: bash -c "pip install cryptography && python hello.py"  # Add this line
+
+  db:
+    build: ./db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: mysecretpassword
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    environment:
+      MYSQL_ROOT_PASSWORD: mysecretpassword
+    depends_on:
+      - backend
+
